@@ -1,0 +1,694 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — "The Realm": dark cinematic medieval fantasy.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-dim: var(--gold-dim);
+  --color-crimson: var(--crimson);
+  --color-ember: var(--ember);
+  --color-steel: var(--steel);
+  --color-parchment: var(--parchment);
+  --color-stone: var(--stone);
+  --font-display: "Cinzel", Georgia, serif;
+  --font-body: "Spectral", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.11 0.006 60);
+  --foreground: oklch(0.9 0.012 80);
+  --card: oklch(0.15 0.008 60);
+  --card-foreground: oklch(0.9 0.012 80);
+  --popover: oklch(0.14 0.008 60);
+  --popover-foreground: oklch(0.9 0.012 80);
+  --primary: oklch(0.76 0.114 82);
+  --primary-foreground: oklch(0.14 0.01 60);
+  --secondary: oklch(0.22 0.012 60);
+  --secondary-foreground: oklch(0.88 0.012 80);
+  --muted: oklch(0.19 0.008 60);
+  --muted-foreground: oklch(0.63 0.018 75);
+  --accent: oklch(0.42 0.135 25);
+  --accent-foreground: oklch(0.94 0.01 80);
+  --destructive: oklch(0.5 0.18 25);
+  --destructive-foreground: oklch(0.95 0.01 80);
+  --border: oklch(0.28 0.014 70);
+  --input: oklch(0.24 0.012 70);
+  --ring: oklch(0.66 0.1 82);
+
+  --gold: oklch(0.76 0.114 82);
+  --gold-dim: oklch(0.55 0.075 82);
+  --crimson: oklch(0.42 0.135 25);
+  --ember: oklch(0.68 0.17 45);
+  --steel: oklch(0.72 0.014 240);
+  --parchment: oklch(0.88 0.045 85);
+  --stone: oklch(0.3 0.008 70);
+
+  --gradient-fire: radial-gradient(
+    ellipse at 50% 100%,
+    color-mix(in oklab, var(--ember) 28%, transparent),
+    transparent 70%
+  );
+  --gradient-veil: linear-gradient(
+    to bottom,
+    var(--background),
+    color-mix(in oklab, var(--background) 70%, transparent) 30%,
+    color-mix(in oklab, var(--background) 70%, transparent) 70%,
+    var(--background)
+  );
+  --shadow-relic: 0 24px 70px -30px oklch(0 0 0 / 0.9);
+  --shadow-glow: 0 0 40px -8px color-mix(in oklab, var(--gold) 35%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 35%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --- Utilities --- */
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+@utility rule-gold {
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 60%, transparent),
+    transparent
+  );
+  height: 1px;
+}
+
+@utility panel-stone {
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--card) 92%, transparent),
+      color-mix(in oklab, var(--background) 96%, transparent)
+    ),
+    var(--gradient-fire);
+  border: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+  box-shadow: var(--shadow-relic);
+}
+
+@utility panel-parchment {
+  background:
+    radial-gradient(
+      ellipse at 20% 10%,
+      color-mix(in oklab, var(--parchment) 92%, transparent),
+      color-mix(in oklab, var(--parchment) 74%, transparent) 70%
+    ),
+    color-mix(in oklab, var(--parchment) 80%, transparent);
+  color: oklch(0.22 0.03 60);
+  border: 1px solid color-mix(in oklab, oklch(0.3 0.05 60) 40%, transparent);
+  box-shadow: var(--shadow-relic);
+}
+
+@utility text-gold-gradient {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--parchment) 90%, transparent),
+    var(--gold) 55%,
+    var(--gold-dim)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility grain-overlay {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      color-mix(in oklab, var(--foreground) 8%, transparent) 1px,
+      transparent 0
+    );
+    background-size: 3px 3px;
+    mix-blend-mode: overlay;
+  }
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(var(--drift, 20px), -110vh, 0) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes fog-drift {
+  0% {
+    transform: translate3d(-8%, 0, 0);
+  }
+  100% {
+    transform: translate3d(8%, 0, 0);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  40% {
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes dragon-cross {
+  0% {
+    transform: translate3d(-25vw, 12vh, 0) scale(0.35) rotate(-4deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.55;
+  }
+  85% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(120vw, -6vh, 0) scale(0.7) rotate(3deg);
+    opacity: 0;
+  }
+}
+
+@keyframes metal-sheen {
+  0% {
+    transform: translate3d(-40%, 0, 0);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(40%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes dragon-wake {
+  0% {
+    transform: translate3d(-30vw, 6vh, 0) scale(0.8);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.55;
+  }
+  75% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(30vw, -4vh, 0) scale(1.15);
+    opacity: 0;
+  }
+}
+
+/* Slow, uneven smoke drift — two detuned paths so planes never sync. */
+@keyframes smoke-drift-a {
+  0% {
+    transform: translate3d(-4%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, -2%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-4%, 0, 0) scale(1);
+  }
+}
+
+@keyframes smoke-drift-b {
+  0% {
+    transform: translate3d(6%, 1%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-5%, -3%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(6%, 1%, 0) scale(1.05);
+  }
+}
+
+/* A vast shadow sweeping the room as the dragon passes. */
+@keyframes dragon-shadow {
+  0% {
+    transform: translate3d(-60%, 0, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(60%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@utility animate-fog {
+  animation: fog-drift 42s ease-in-out infinite alternate;
+}
+
+@utility animate-flicker {
+  animation: flicker 6s ease-in-out infinite;
+}
+
+
+@keyframes map-dust {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+@keyframes realm-marker-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+@keyframes realm-marker-glow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes realm-panel-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- The Citadel (about) ---------- */
+@keyframes citadel-torch {
+  0%   { transform: translate3d(-6%, -3%, 0) scale(1); opacity: .5; }
+  25%  { transform: translate3d(2%, 2%, 0) scale(1.06); opacity: .68; }
+  50%  { transform: translate3d(7%, -2%, 0) scale(1.02); opacity: .55; }
+  75%  { transform: translate3d(1%, 4%, 0) scale(1.08); opacity: .72; }
+  100% { transform: translate3d(-6%, -3%, 0) scale(1); opacity: .5; }
+}
+
+@keyframes citadel-dust {
+  0%   { transform: translate3d(0, 0, 0); }
+  33%  { transform: translate3d(6px, -14px, 0); }
+  66%  { transform: translate3d(-4px, -26px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes citadel-sheen {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(120%); }
+}
+
+.citadel-badge {
+  position: relative;
+  overflow: hidden;
+  transition:
+    color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.citadel-badge:hover { transform: scale(1.015); }
+.citadel-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    color-mix(in oklab, var(--gold) 18%, transparent) 50%,
+    transparent 65%
+  );
+  opacity: 0;
+}
+.citadel-badge:hover::after {
+  opacity: 1;
+  animation: citadel-sheen 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.citadel-row .citadel-row-label,
+.citadel-row .citadel-row-value {
+  transition: color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.citadel-row .citadel-row-line {
+  transition: background-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .citadel-badge:hover::after { animation: none; opacity: 0; }
+}
+
+/* ---------- The Chronicles (timeline writes itself) ---------- */
+@keyframes chronicle-nib {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+
+/* ---------- The Forge (engraved plates) ---------- */
+@keyframes forge-sweep {
+  from { transform: translateX(-130%) skewX(-12deg); }
+  to   { transform: translateX(130%) skewX(-12deg); }
+}
+
+@keyframes forge-heat {
+  0%, 100% { opacity: .18; }
+  50%      { opacity: .32; }
+}
+
+/* ---------- Campaign environments ---------- */
+@keyframes campaign-flame {
+  0%, 100% { opacity: .28; transform: translate3d(0,0,0) scale(1); }
+  30%      { opacity: .46; transform: translate3d(1%, -1%, 0) scale(1.05); }
+  55%      { opacity: .22; transform: translate3d(-1%, 1%, 0) scale(0.98); }
+  80%      { opacity: .40; transform: translate3d(1%, 0, 0) scale(1.03); }
+}
+
+@keyframes campaign-mist {
+  from { transform: translate3d(-4%, 0, 0); }
+  to   { transform: translate3d(4%, 0, 0); }
+}
+
+/* ---------- The Ravenry ---------- */
+@keyframes raven-flap {
+  0%, 100% { transform: rotateX(0deg) scaleY(1); }
+  50%      { transform: rotateX(62deg) scaleY(0.42); }
+}
+
+@keyframes raven-bob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-26px) rotate(3deg); }
+}
+
+/* Engraved marks on the forge plates */
+.forge-mark {
+  color: color-mix(in oklab, var(--parchment) 55%, transparent);
+  text-shadow:
+    0 1px 0 oklch(0 0 0 / 0.85),
+    0 -1px 0 color-mix(in oklab, var(--gold) 8%, transparent);
+  transition:
+    color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    text-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.forge-mark:hover,
+.forge-mark:focus-visible {
+  color: color-mix(in oklab, var(--gold) 82%, var(--parchment));
+  text-shadow: 0 0 10px color-mix(in oklab, var(--ember) 22%, transparent), 0 1px 0 oklch(0 0 0 / 0.85);
+}
+
+/* Royal Records — the resume sheet stays professional, not fantasy. */
+.resume-sheet h1,
+.resume-sheet h2,
+.resume-sheet h3,
+.resume-sheet h4 {
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+/* Ravenry — restrained atmospheric wash while the bird is in the air.
+   Never darker than 0.3: the section must stay recognisable behind it. */
+@keyframes raven-wash {
+  0% { opacity: 0; }
+  14% { opacity: 1; }
+  72% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.raven-wash {
+  background: radial-gradient(120% 90% at 50% 70%, rgba(8, 8, 12, 0.18), rgba(8, 8, 12, 0.3));
+  animation: raven-wash 1450ms ease-in-out forwards;
+}
+
+/* ---------- Hanging Sigil Settle Physics (Organic Gravity Decay) ---------- */
+@keyframes sigil-settle {
+  0% {
+    transform: rotate(-2.2deg);
+  }
+  28% {
+    transform: rotate(2.0deg);
+  }
+  56% {
+    transform: rotate(-1.0deg);
+  }
+  78% {
+    transform: rotate(0.4deg);
+  }
+  92% {
+    transform: rotate(-0.1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes sigil-secondary-settle {
+  0% {
+    transform: rotate(-1.0deg);
+  }
+  30% {
+    transform: rotate(0.9deg);
+  }
+  58% {
+    transform: rotate(-0.4deg);
+  }
+  80% {
+    transform: rotate(0.15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-sigil-sway {
+  animation: sigil-settle 4.2s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+.animate-sigil-secondary {
+  animation: sigil-secondary-settle 4.2s cubic-bezier(0.33, 1, 0.68, 1) 0.15s forwards;
+}
+
+/* ---------- Hero: One-Time Name Gold Light Catch (Shot 06) ---------- */
+@keyframes hero-name-glint {
+  0% {
+    transform: translateX(-160%) skewX(-24deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(280%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.hero-name-light-catch {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-name-light-catch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 235, 185, 0.4) 50%,
+    transparent 100%
+  );
+  filter: blur(5px);
+  pointer-events: none;
+  animation: hero-name-glint 2600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sigil-sway,
+  .animate-sigil-secondary {
+    animation: none !important;
+    transform: none !important;
+  }
+  .hero-name-light-catch::after {
+    display: none !important;
+  }
+}
+
+/* ---------- Citadel: Single Badge Metallic Glint ---------- */
+@keyframes badge-glint-sweep {
+  0% {
+    transform: translateX(-180%) skewX(-24deg);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 0.55;
+  }
+  6.5% {
+    transform: translateX(280%) skewX(-24deg);
+    opacity: 0.55;
+  }
+  7.5% {
+    opacity: 0;
+    transform: translateX(280%) skewX(-24deg);
+  }
+  100% {
+    transform: translateX(-180%) skewX(-24deg);
+    opacity: 0;
+  }
+}
+
+.citadel-glint-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+.citadel-glint-badge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 230, 180, 0.45) 50%,
+    transparent 100%
+  );
+  filter: blur(1px);
+  pointer-events: none;
+  animation: badge-glint-sweep 8.2s ease-in-out infinite;
+}
+
+/* ---------- Citadel: Record Value Stamp-In ---------- */
+@keyframes value-stamp-press {
+  0% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(0.98);
+  }
+  75% {
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.citadel-value-stamped {
+  display: inline-block;
+  transform-origin: right center;
+  animation: value-stamp-press 200ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .citadel-glint-badge::after {
+    display: none !important;
+  }
+  .citadel-value-stamped {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+
